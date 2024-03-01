@@ -29,7 +29,6 @@ function wikimg($page) {
             }
             return;
 
-        case "World":
         case "Events":
         case "Factions":
         case "Quests":

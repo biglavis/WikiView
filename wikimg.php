@@ -36,7 +36,10 @@ function wikimg($page) {
         case "Shops":
         case "Hair Shops":
         case "Merge Shops":
+        case "Enhancements":
         case "Misc. Items":
+        case "Use Items":
+        case "Necklaces":
             return;
 
         case "Classes":

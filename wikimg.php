@@ -1,7 +1,18 @@
 <?php
 header("Access-Control-Allow-Origin: *");
 
+$EXCLUDE = array(   "acsmall.png", "aclarge.png",
+                    "legendsmall.png", "legendlarge.png",
+                    "raresmall.png", "rarelarge.png",
+                    "pseudosmall.png", "pseudolarge.png",
+                    "seasonalsmall.png", "seasonallarge.png",
+                    "specialsmall.png", "speciallarge.png",
+                    "upholdersmall.png", "upholderlarge.png",
+                    "betasmall.png", "betalarge.png"            );
+
 function wikimg($page) {
+    global $EXCLUDE;
+
     // get HTML
     $curl = curl_init($page);
 
@@ -31,6 +42,7 @@ function wikimg($page) {
 
         case "Events":
         case "Factions":
+        case "Game Menu":
         case "Quests":
         case "Shops":
         case "Hair Shops":
@@ -39,13 +51,13 @@ function wikimg($page) {
         case "Misc. Items":
         case "Use Items":
         case "Necklaces":
-            return;
+            return;        
 
         case "Classes":
         case "Armors":
             if ($finder->query("//div[@class='yui-content']")->length > 0) {
-                $image0 = $finder->query("//div[@id='wiki-tab-0-0']//img[parent::div]")->item(0);
-                $image1 = $finder->query("//div[@id='wiki-tab-0-1']//img[parent::div]")->item(0);
+                $image0 = $finder->query("//div[@id='wiki-tab-0-0']//img")->item(0);
+                $image1 = $finder->query("//div[@id='wiki-tab-0-1']//img")->item(0);
     
                 $image0->setAttribute("height", "65%");
                 $image1->setAttribute("height", "65%");
@@ -54,13 +66,19 @@ function wikimg($page) {
             }
 
         default:
-            $images = $finder->query("(//div[@id='wiki-tab-0-0'])[last()]//img[parent::div]")->item(0);
-            if ($images)
-                return array($doc->saveHTML($images));
+            $image = $finder->query("//div[@id='page-content']/img[last()]")->item(0);
+            if ($image && !in_array($image->getAttribute("alt"), $EXCLUDE))
+                return array($doc->saveHTML($image));
 
-            $images = $finder->query("//div[@id='page-content']/img[last()]")->item(0);
-            if ($images)
-                return array($doc->saveHTML($images));
+            $images = $finder->query("(//div[@id='wiki-tab-0-0'])//img");
+            foreach ($images as $image)
+                if ($image && !in_array($image->getAttribute("alt"), $EXCLUDE))
+                    return array($doc->saveHTML($image));
+
+            $images = $finder->query("//div[@id='page-content']/div[@class='collapsible-block']//img");
+            foreach ($images as $image)
+                if ($image && !in_array($image->getAttribute("alt"), $EXCLUDE))
+                    return array($doc->saveHTML($image));
 
             return;
     }

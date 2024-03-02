@@ -11,6 +11,7 @@
 // @match           https://account.aq.com/AQW/House
 // @require         https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js
 // @icon            https://www.aq.com/favicon.ico
+// @license         MIT
 // ==/UserScript==
 
 let mousePos = { x: -1, y: -1 };

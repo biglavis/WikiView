@@ -78,11 +78,10 @@ function showPreview(link) {
             })
             .then(function(html) {
                 // parse text
-                return new DOMParser().parseFromString(html, "text/html");
-            })
-            .then(function(doc) {
+                doc = new DOMParser().parseFromString(html, "text/html");
+
                 // get images
-                let images = $(doc).find("body img")
+                let images = $(doc).find("body img");
 
                 if (images.length > 0) {
                     let maxwidth = window.innerWidth*0.45 + "px";

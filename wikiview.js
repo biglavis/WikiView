@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            WikiView: AQW Link Preview
 // @namespace       https://github.com/biglavis/
-// @version         1.0
+// @version         1.0.1
 // @description     Adds image previews for links on the official AQW Wiki, AQW character pages, and AQW account management.
 // @match           http://aqwwiki.wikidot.com/*
 // @match           https://account.aq.com/CharPage?id=*
@@ -89,14 +89,14 @@ function showPreview(link) {
                     let maxheight = window.innerHeight*0.65 + "px";
 
                     removePreview(); // remove previous preview
-                    $("body").append("<div id='preview' style='position:fixed;'></div>");
+                    $("body").append('<div id="preview" style="position:fixed;"></div>');
 
                     // add images to new div
                     images.each(function () {
                         if (images.length == 1)
-                            $("#preview").append("<img style='max-width:" + maxwidth + "; max-height:" + maxheight + "; height:auto; width:auto;' src='" + this.src + "'>");
+                            $("#preview").append('<img style="max-width:' + maxwidth + '; max-height:' + maxheight + '; height:auto; width:auto;" src="' + this.src + '">');
                         else
-                            $("#preview").append("<img style='height:" + maxheight + ";' src='" + this.src + "'>");
+                            $("#preview").append('<img style="height:' + maxheight + ';" src="' + this.src + '">');
                     });
 
                     // wait for images to load then position div

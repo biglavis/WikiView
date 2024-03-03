@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            WikiView: AQW Link Preview
 // @namespace       https://github.com/biglavis/
-// @version         1.0.2
+// @version         1.0.1
 // @description     Adds image previews for links on the official AQW Wiki, AQW character pages, and AQW account management.
 // @match           http://aqwwiki.wikidot.com/*
 // @match           https://account.aq.com/CharPage?id=*

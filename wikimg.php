@@ -53,8 +53,8 @@ function wikimg($page) {
         case "Classes":
         case "Armors":
             if ($finder->query("//div[@class='yui-content']")->length > 0) {
-                $image0 = $finder->query("//div[@id='wiki-tab-0-0']//img")->item(0);
-                $image1 = $finder->query("//div[@id='wiki-tab-0-1']//img")->item(0);
+                $image0 = $finder->query("(//div[@id='wiki-tab-0-0'])[last()]//img")->item(0);
+                $image1 = $finder->query("(//div[@id='wiki-tab-0-1'])[last()]//img")->item(0);
     
                 $image0->setAttribute("height", "65%");
                 $image1->setAttribute("height", "65%");

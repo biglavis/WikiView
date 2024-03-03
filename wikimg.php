@@ -67,7 +67,7 @@ function wikimg($page) {
             if ($image && !in_array($image->getAttribute("alt"), $EXCLUDE))
                 return array($doc->saveHTML($image));
 
-            $images = $finder->query("(//div[@id='wiki-tab-0-0'])//img");
+            $images = $finder->query("//div[@id='wiki-tab-0-0']//img");
             foreach ($images as $image)
                 if ($image && !in_array($image->getAttribute("alt"), $EXCLUDE))
                     return array($doc->saveHTML($image));

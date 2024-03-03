@@ -38,7 +38,6 @@ $("#inventoryRendered").on("mouseover", function() {
 });
 
 $("#listinvFull, #wheel, table.table.table-sm.table-bordered").on("mouseover", function() {
-    console.log("hovered");
     $(this).find("tbody td:first-child").on({
         mouseover: function() { hovered("http://aqwwiki.wikidot.com/" + this.textContent.split(/\sx\d+/)[0]); },
         mouseout: function() { unhovered(); }

@@ -32,7 +32,7 @@ function wikimg($page) {
     // get images
     switch ($type) {
         case "AQWorlds Wiki":
-            $links = $finder->query("//div[@id='page-content']/a");
+            $links = $finder->query("//div[@id='page-content']//a");
             foreach($links as $link) {
                 $images = wikimg("http://aqwwiki.wikidot.com" . $link->getAttribute("href"));
                 if ($images) 

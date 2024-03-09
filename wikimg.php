@@ -52,8 +52,8 @@ function wikimg($page) {
 
         case "Classes":
         case "Armors":
-            $image0 = $finder->query("(//div[@id='wiki-tab-0-0'])[last()]/img | (//div[@id='wiki-tab-0-0'])[last()]//div[@class='collapsible-block-content']/img")->item(0);
-            $image1 = $finder->query("(//div[@id='wiki-tab-0-1'])[last()]/img | (//div[@id='wiki-tab-0-1'])[last()]//div[@class='collapsible-block-content']/img")->item(0);
+            $image0 = $finder->query("(//div[@id='wiki-tab-0-0'])[last()]//img[1]")->item(0);
+            $image1 = $finder->query("(//div[@id='wiki-tab-0-1'])[last()]//img[1]")->item(0);
 
             if ($image0 && $image1) {
                 $image0->setAttribute("height", "65%");

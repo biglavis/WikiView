@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            WikiView: AQW Link Preview
 // @namespace       https://github.com/biglavis/
-// @version         1.0.1
+// @version         1.1
 // @description     Adds image previews for links on the official AQW Wiki, AQW character pages, and AQW account management.
 // @match           http://aqwwiki.wikidot.com/*
 // @match           https://account.aq.com/CharPage?id=*
@@ -14,7 +14,7 @@
 // @license         MIT
 // ==/UserScript==
 
-let mousePos = { x: -1, y: -1 };
+var mousePos = { x: -1, y: -1 };
     $(document).mousemove(function(event) {
         mousePos.x = event.clientX;
         mousePos.y = event.clientY;
@@ -22,8 +22,8 @@ let mousePos = { x: -1, y: -1 };
         if (!mouseOn) removePreview();
     });
 
-let mouseOn = false; // flag to prevent spam
-let timeout = null;
+var mouseOn = false; // flag to prevent spam
+var timeout = null;
 
 $("#page-content a, .card.m-2.m-lg-3 a").on({
     mouseover: function() { hovered(this.href); },
@@ -68,49 +68,59 @@ function unhovered() {
 }
 
 function showPreview(link) {
-    if (link.startsWith("http://aqwwiki.wikidot.com/")) {
-        let url = "https://whoasked.freewebhostmost.com/wikimg.php?page=" + link;
-        fetch(url)
-            .then(function(response) {
-                // convert page to text
-                return response.text()
-            })
-            .then(function(html) {
-                // parse text
-                doc = new DOMParser().parseFromString(html, "text/html");
+    if (!link.startsWith("http://aqwwiki.wikidot.com/")) return;
 
-                // get images
-                let images = $(doc).find("body img");
+    fetch("https://whoasked.freewebhostmost.com/wikimg.php?page=" + link)
+        .then(function(response) {
+            // convert page to text
+            return response.text()
+        })
+        .then(function(html) {
+            // parse text
+            const doc = new DOMParser().parseFromString(html, "text/html");
 
-                if (images.length > 0) {
-                    let maxwidth = window.innerWidth*0.45 + "px";
-                    let maxheight = window.innerHeight*0.65 + "px";
+            // get images
+            const images = $(doc).find("body img");
 
-                    removePreview(); // remove previous preview
-                    $("body").append('<div id="preview" style="position:fixed;"></div>');
+            // return if no images found
+            if (images.length == 0) return;
 
-                    // add images to new div
-                    images.each(function () {
-                        if (images.length == 1)
-                            $("#preview").append('<img style="max-width:' + maxwidth + '; max-height:' + maxheight + '; height:auto; width:auto;" src="' + this.src + '">');
-                        else
-                            $("#preview").append('<img style="height:' + maxheight + ';" src="' + this.src + '">');
-                    });
+            const maxwidth = $(window).width() * 0.45;
+            const maxheight = $(window).height() * 0.65;
 
-                    // wait for images to load then position div
-                    waitForImg("#preview img:last", function() {
-                        $("#preview").css("top", mousePos.y - (mousePos.y / window.innerHeight) * $("#preview").height() + "px");
-                        if (mousePos.x < window.innerWidth / 2)
-                            $("#preview").css("left", mousePos.x + 100 + "px");
-                        else
-                            $("#preview").css("right", window.innerWidth - mousePos.x + 100 + "px");
-                    });
+            removePreview(); // remove previous preview
+            $("body").append('<div id="preview" style="position:fixed; display:flex"></div>');
+
+            // add images to new div
+            images.each(function () {
+                if (images.length == 1) {
+                    $("#preview").append(`<img style="max-width:${maxwidth}px; max-height:${maxheight}px; height:auto; width:auto;" src="${this.src}">`);
+                } else {
+                    $("#preview").append(`<img style="height:${maxheight}px;" src="${this.src}">`);
                 }
-            })
-            .catch(function(err) {
-                console.log("Failed to fetch page: ", err);
             });
-    }
+
+            // wait for images to load
+            waitForImg("#preview img:last", function() {
+
+                // scale images down if div width > max width
+                const scale = maxwidth / $("#preview").width();
+                $("#preview img").each(function() {
+                    this.style.height = this.offsetHeight * Math.min(1, scale) + "px";
+                });
+
+                // position div
+                $("#preview").css("top", mousePos.y - (mousePos.y / $(window).height()) * $("#preview").height() + "px");
+                if (mousePos.x < $(window).width() / 2) {
+                    $("#preview").css("left", mousePos.x + Math.min(100, $(window).width() - $("#preview").width() - mousePos.x) + "px");
+                } else {
+                    $("#preview").css("right", $(window).width() - mousePos.x + Math.min(100, mousePos.x - $("#preview").width()) + "px");
+                }
+            });
+        })
+        .catch(function(err) {
+            console.log("Failed to fetch page: ", err);
+        });
 }
 
 function removePreview() {

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            WikiView: AQW Link Preview
 // @namespace       https://github.com/biglavis/
-// @version         1.1
+// @version         1.1.1
 // @description     Adds image previews for links on the official AQW Wiki, AQW character pages, and AQW account management.
 // @match           http://aqwwiki.wikidot.com/*
 // @match           https://account.aq.com/CharPage?id=*
@@ -30,7 +30,7 @@ $("#page-content a, .card.m-2.m-lg-3 a").on({
     mouseout: function() { unhovered(); }
 });
 
-$("#inventoryRendered").on("mouseover", function() {
+$("#inventoryRendered, #site-changes-list").on("mouseover", function() {
     $(this).find("a").on({
         mouseover: function() { hovered(this.href); },
         mouseout: function() { unhovered(); }

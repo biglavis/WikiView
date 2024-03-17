@@ -36,8 +36,7 @@ function wikimg($page) {
             $links = $finder->query("//div[@id='page-content']//a");
             foreach($links as $link) {
                 $images = wikimg("http://aqwwiki.wikidot.com" . $link->getAttribute("href"));
-                if ($images) 
-                    return $images;
+                if ($images) return $images;
             }
             return;
 
@@ -65,18 +64,21 @@ function wikimg($page) {
 
         default:
             $image = $finder->query("//div[@id='page-content']/img[last()]")->item(0);
-            if ($image && !in_array($image->getAttribute("alt"), $EXCLUDE))
+            if ($image && !in_array($image->getAttribute("alt"), $EXCLUDE)) {
                 return array($doc->saveHTML($image));
+            }
 
             $images = $finder->query("//div[@id='wiki-tab-0-0']//img");
             foreach ($images as $image)
-                if ($image && !in_array($image->getAttribute("alt"), $EXCLUDE))
+                if ($image && !in_array($image->getAttribute("alt"), $EXCLUDE)) {
                     return array($doc->saveHTML($image));
+                }
 
             $images = $finder->query("//div[@id='page-content']/div[@class='collapsible-block']//img");
             foreach ($images as $image)
-                if ($image && !in_array($image->getAttribute("alt"), $EXCLUDE))
+                if ($image && !in_array($image->getAttribute("alt"), $EXCLUDE)) {
                     return array($doc->saveHTML($image));
+                }
 
             return;
     }
@@ -89,10 +91,11 @@ if ($page && (  str_starts_with($page, "http://aqwwiki.wikidot.com/") ||
 
     $images = wikimg("http://aqwwiki.wikidot.com/" . rawurlencode(explode(".com/", $page)[1]));
     
-    if ($images)
-        foreach($images as $image) 
+    if (!$images) echo "Error! Image not found.";
+    else {
+        foreach($images as $image) {
             echo $image;
-    else 
-        echo "Error! Image not found.";
+        }
+    }
 }
 ?>

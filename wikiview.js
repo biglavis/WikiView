@@ -134,8 +134,7 @@ function waitForImg(selector, callback) {
                 callback();
                 clearInterval(wait);
             }
-        }
-        catch {
+        } catch {
             clearInterval(wait);
         }
     }, 25);

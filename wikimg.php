@@ -8,7 +8,8 @@ $EXCLUDE = array(   "acsmall.png", "aclarge.png",
                     "seasonalsmall.png", "seasonallarge.png",
                     "specialsmall.png", "speciallarge.png",
                     "upholdersmall.png", "upholderlarge.png",
-                    "betasmall.png", "betalarge.png"            );
+                    "betasmall.png", "betalarge.png",
+                    "ptrsmall.png", "ptrlarge.png"              );
 
 function wikimg($page) {
     global $EXCLUDE;

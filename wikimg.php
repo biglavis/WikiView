@@ -33,10 +33,12 @@ function wikimg($page) {
     // get images
     switch ($type) {
         case "AQWorlds Wiki":
-            $links = $finder->query("//div[@id='page-content']//a");
-            foreach($links as $link) {
-                $images = wikimg("http://aqwwiki.wikidot.com" . $link->getAttribute("href"));
-                if ($images) return $images;
+            if ($finder->query("(//div[@id='page-content']/*[1])[name()='p']")->length) {
+                $links = $finder->query("//div[@id='page-content']//a");
+                foreach($links as $link) {
+                    $images = wikimg("http://aqwwiki.wikidot.com" . $link->getAttribute("href"));
+                    if ($images) return $images;
+                }
             }
             return;
 

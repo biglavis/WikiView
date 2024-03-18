@@ -2,6 +2,7 @@
 header("Access-Control-Allow-Origin: *");
 
 $EXCLUDE = array(   "acsmall.png", "aclarge.png",
+                    "membersmall.png", "memberlarge.png",
                     "legendsmall.png", "legendlarge.png",
                     "raresmall.png", "rarelarge.png",
                     "pseudosmall.png", "pseudolarge.png",
@@ -82,6 +83,11 @@ function wikimg($page) {
                 if ($image && !in_array($image->getAttribute("alt"), $EXCLUDE)) {
                     return array($doc->saveHTML($image));
                 }
+
+            $image = $finder->query("//div[@id='page-content']//img[last()]")->item(0);
+            if ($image && !in_array($image->getAttribute("alt"), $EXCLUDE)) {
+                return array($doc->saveHTML($image));
+            }
 
             return;
     }

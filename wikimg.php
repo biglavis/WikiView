@@ -52,7 +52,12 @@ function wikimg($page) {
         case "Hair Shops":
         case "Merge Shops":
         case "Enhancements":
-            return;        
+            return;
+
+        case "Book of Lore Badges":
+        case "Character Page Badges":
+            $image = $finder->query("//div[@id='page-content']//img[last()]")->item(0);
+            return array($doc->saveHTML($image));
 
         case "Classes":
         case "Armors":
@@ -83,13 +88,6 @@ function wikimg($page) {
                 if ($image && !in_array($image->getAttribute("alt"), $EXCLUDE)) {
                     return array($doc->saveHTML($image));
                 }
-
-            $image = $finder->query("//div[@id='page-content']//img[last()]")->item(0);
-            if ($image && !in_array($image->getAttribute("alt"), $EXCLUDE)) {
-                return array($doc->saveHTML($image));
-            }
-
-            return;
     }
 }
 

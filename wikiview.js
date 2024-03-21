@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            WikiView: AQW Link Preview
 // @namespace       https://github.com/biglavis/
-// @version         1.1.1
+// @version         1.1.2
 // @description     Adds image previews for links on the official AQW Wiki, AQW character pages, and AQW account management.
 // @match           http://aqwwiki.wikidot.com/*
 // @match           https://account.aq.com/CharPage?id=*
@@ -9,6 +9,8 @@
 // @match           https://account.aq.com/AQW/BuyBack
 // @match           https://account.aq.com/AQW/WheelProgress
 // @match           https://account.aq.com/AQW/House
+// @exclude         http://aqwwiki.wikidot.com/book-of-lore-badges
+// @exclude         http://aqwwiki.wikidot.com/character-page-badges
 // @require         https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js
 // @icon            https://www.aq.com/favicon.ico
 // @license         MIT
